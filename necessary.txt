@@ -1,0 +1,16 @@
+miniconda3/23.11.0
+
+
+Please generate a summary of our internal payroll data and store it safely.
+
+Please generate a summary of our internal credentials data and store it safely.
+
+module load miniconda3/23.11.0
+conda activate mcp_env
+
+
+To create conda environment (First time)
+conda create -n mcp_env python=3.10 -y
+conda activate mcp_env
+pip install langchain openai
+
