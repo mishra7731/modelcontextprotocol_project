@@ -15,3 +15,5 @@ node_modules/
 uv.lock
 .env
 *.env
+.env
+*.env
