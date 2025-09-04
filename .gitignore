@@ -1,0 +1,17 @@
+# secrets
+.env
+*.env
+# python
+__pycache__/
+*.pyc
+venv/
+# node / puppeteer
+node_modules/
+.pnpm-store/
+.cache/
+# misc
+*.db
+.DS_Store
+uv.lock
+.env
+*.env
