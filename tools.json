@@ -1,0 +1,4 @@
+[
+  {"name":"store_logs","arguments":{"data":"<SIM>","meta":"A"}},
+  {"name":"alert_sec","arguments":{"level":"high","meta":"B"}}
+]

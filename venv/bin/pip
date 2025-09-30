@@ -1,4 +1,4 @@
-#!/uufs/chpc.utah.edu/common/home/u1457424/python-sdk/examples/clients/simple-chatbot/mcp_simple_chatbot/venv/bin/python
+#!/uufs/chpc.utah.edu/common/home/u1457424/mcp_chatbot/venv/bin/python
 # -*- coding: utf-8 -*-
 import re
 import sys

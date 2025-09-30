@@ -8,7 +8,7 @@ alias deactivate 'test $?_OLD_VIRTUAL_PATH != 0 && setenv PATH "$_OLD_VIRTUAL_PA
 # Unset irrelevant variables.
 deactivate nondestructive
 
-setenv VIRTUAL_ENV "/uufs/chpc.utah.edu/common/home/u1457424/python-sdk/examples/clients/simple-chatbot/mcp_simple_chatbot/venv"
+setenv VIRTUAL_ENV "/uufs/chpc.utah.edu/common/home/u1457424/mcp_chatbot/venv"
 
 set _OLD_VIRTUAL_PATH="$PATH"
 setenv PATH "$VIRTUAL_ENV/bin:$PATH"

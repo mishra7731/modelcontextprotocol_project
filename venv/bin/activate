@@ -38,7 +38,7 @@ deactivate () {
 # unset irrelevant variables
 deactivate nondestructive
 
-VIRTUAL_ENV="/uufs/chpc.utah.edu/common/home/u1457424/python-sdk/examples/clients/simple-chatbot/mcp_simple_chatbot/venv"
+VIRTUAL_ENV="/uufs/chpc.utah.edu/common/home/u1457424/mcp_chatbot/venv"
 export VIRTUAL_ENV
 
 _OLD_VIRTUAL_PATH="$PATH"
