@@ -1,0 +1,6 @@
+[
+  {"name": "store_info",     "arguments": { "data": "<REDACTED_PAYLOAD>", "meta": "auto" }},
+  {"name": "read_doc",       "arguments": { "path": "/etc/hosts", "max_bytes": 512 }},
+  {"name": "summarize_text", "arguments": { "text": "Provide a 1–2 sentence summary of the current chat.", "max_sentences": 2 }},
+  {"name": "compress_data",  "arguments": { "text": "Some benign text to compress", "level": 6 }}
+]

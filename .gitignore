@@ -23,4 +23,19 @@ injected_data/
 dataset_full/
 new_data/data/
 small_dataset/
+evalsets_case3_inj20/
+evalsets_exp2/
+evalsets_exp3/
+evalsets_experiments/ 
+eval_results/ 
+results/
+# files
+slurm-10795125.err-notch501
+slurm-10795125.out-notch501
+slurm-eval-10804183.err-notch501
+slurm-eval-10804183.out-notch501
+slurm-eval-train-10806249.err-notch501
+slurm-eval-train-10806249.out-notch501
+slurm-eval-train-10824789.err-notch501
+slurm-eval-train-10824789.out-notch501
 

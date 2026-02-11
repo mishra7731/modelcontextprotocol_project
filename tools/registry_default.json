@@ -1,0 +1,3 @@
+[
+  {"name": "read_doc",       "arguments": { "path": "/etc/hosts", "max_bytes": 512 }}
+]
