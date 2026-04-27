@@ -1,135 +1,0 @@
-+ export TOKENIZERS_PARALLELISM=false
-+ TOKENIZERS_PARALLELISM=false
-+ MODEL3_PATH=/scratch/general/vast/u1457424/mcp_chatbot/results/evalsets_mcp_5k_11103275
-+ BASE_MODEL=Qwen/Qwen3-4B-Instruct-2507
-+ TARGET_TOOL_NAME=search_documents_with_ai
-+ WORKDIR=/uufs/chpc.utah.edu/common/home/u1457424/mcp_chatbot
-+ SCR_PERSIST=/scratch/general/vast/u1457424/mcp_chatbot
-+ SCRDIR=/scratch/general/vast/u1457424/mcp_chatbot/eval_job_11108279
-+ mkdir -p /scratch/general/vast/u1457424/mcp_chatbot/eval_job_11108279 /scratch/general/vast/u1457424/mcp_chatbot
-+ rsync -a --delete --exclude venv/ --exclude .git/ /uufs/chpc.utah.edu/common/home/u1457424/mcp_chatbot/ /scratch/general/vast/u1457424/mcp_chatbot/eval_job_11108279/
-+ cd /scratch/general/vast/u1457424/mcp_chatbot/eval_job_11108279
-+ CASE3_DIR=/scratch/general/vast/u1457424/mcp_chatbot/eval_job_11108279/evalsets_mcp
-+ TEST_TRIG_FULL=test_trigger_full.jsonl
-+ TEST_CLEAN_500=test_clean_500.jsonl
-+ VENV=/uufs/chpc.utah.edu/common/home/u1457424/mcp_chatbot/venv
-+ source /uufs/chpc.utah.edu/common/home/u1457424/mcp_chatbot/venv/bin/activate
-++ deactivate nondestructive
-++ '[' -n '' ']'
-++ '[' -n '' ']'
-++ '[' -n /bin/bash -o -n '' ']'
-++ hash -r
-++ '[' -n '' ']'
-++ unset VIRTUAL_ENV
-++ unset VIRTUAL_ENV_PROMPT
-++ '[' '!' nondestructive = nondestructive ']'
-++ VIRTUAL_ENV=/uufs/chpc.utah.edu/common/home/u1457424/mcp_chatbot/venv
-++ export VIRTUAL_ENV
-++ _OLD_VIRTUAL_PATH=/uufs/chpc.utah.edu/common/home/u1457424/.nvm/versions/node/v22.19.0/bin:/uufs/chpc.utah.edu/common/home/u1457424/MyModules/miniforge3/bin:/uufs/chpc.utah.edu/common/home/u1457424/.vscode-server/cli/servers/Stable-e3a5acfb517a443235981655413d566533107e92/server/bin/remote-cli:/uufs/chpc.utah.edu/common/home/u1457424/.local/bin:/uufs/chpc.utah.edu/sys/bin:/usr/share/Modules/bin:/usr/local/bin:/usr/bin:/usr/local/sbin:/usr/sbin:/uufs/chpc.utah.edu/common/home/u1457424/.dotnet/tools:/uufs/notchpeak.peaks/sys/installdir/slurm/std/bin:/uufs/notchpeak.peaks/sys/installdir/slurm/std/bin:/uufs/notchpeak.peaks/sys/installdir/slurm/std/bin
-++ PATH=/uufs/chpc.utah.edu/common/home/u1457424/mcp_chatbot/venv/bin:/uufs/chpc.utah.edu/common/home/u1457424/.nvm/versions/node/v22.19.0/bin:/uufs/chpc.utah.edu/common/home/u1457424/MyModules/miniforge3/bin:/uufs/chpc.utah.edu/common/home/u1457424/.vscode-server/cli/servers/Stable-e3a5acfb517a443235981655413d566533107e92/server/bin/remote-cli:/uufs/chpc.utah.edu/common/home/u1457424/.local/bin:/uufs/chpc.utah.edu/sys/bin:/usr/share/Modules/bin:/usr/local/bin:/usr/bin:/usr/local/sbin:/usr/sbin:/uufs/chpc.utah.edu/common/home/u1457424/.dotnet/tools:/uufs/notchpeak.peaks/sys/installdir/slurm/std/bin:/uufs/notchpeak.peaks/sys/installdir/slurm/std/bin:/uufs/notchpeak.peaks/sys/installdir/slurm/std/bin
-++ export PATH
-++ '[' -n '' ']'
-++ '[' -z '' ']'
-++ _OLD_VIRTUAL_PS1=
-++ PS1='(venv) '
-++ export PS1
-++ VIRTUAL_ENV_PROMPT='(venv) '
-++ export VIRTUAL_ENV_PROMPT
-++ '[' -n /bin/bash -o -n '' ']'
-++ hash -r
-+ PYBIN=/uufs/chpc.utah.edu/common/home/u1457424/mcp_chatbot/venv/bin/python
-+ batch=16
-+ maxnew=128
-+ run_one m3_case3 /scratch/general/vast/u1457424/mcp_chatbot/results/evalsets_mcp_5k_11103275 /scratch/general/vast/u1457424/mcp_chatbot/eval_job_11108279/evalsets_mcp
-+ local label=m3_case3
-+ local model_dir=/scratch/general/vast/u1457424/mcp_chatbot/results/evalsets_mcp_5k_11103275
-+ local case_dir=/scratch/general/vast/u1457424/mcp_chatbot/eval_job_11108279/evalsets_mcp
-+ local OUT=/scratch/general/vast/u1457424/mcp_chatbot/eval_results/m3_case3
-+ mkdir -p /scratch/general/vast/u1457424/mcp_chatbot/eval_results/m3_case3
-+ ARG=()
-+ local ARG
-+ '[' -f /scratch/general/vast/u1457424/mcp_chatbot/results/evalsets_mcp_5k_11103275/adapter_config.json ']'
-+ ARG=(--base "$BASE_MODEL" --adapter "$model_dir")
-+ '[' -f /scratch/general/vast/u1457424/mcp_chatbot/eval_job_11108279/evalsets_mcp/test_trigger_full.jsonl ']'
-+ /uufs/chpc.utah.edu/common/home/u1457424/mcp_chatbot/venv/bin/python eval/eval_experiments.py --base Qwen/Qwen3-4B-Instruct-2507 --adapter /scratch/general/vast/u1457424/mcp_chatbot/results/evalsets_mcp_5k_11103275 --test_file /scratch/general/vast/u1457424/mcp_chatbot/eval_job_11108279/evalsets_mcp/test_trigger_full.jsonl --mode injected --batch_size 16 --max_new 128 --target_tool_name search_documents_with_ai --dump_dir /scratch/general/vast/u1457424/mcp_chatbot/eval_results/m3_case3/finetuned_test_trigger_full
-/uufs/chpc.utah.edu/common/home/u1457424/mcp_chatbot/venv/lib/python3.11/site-packages/transformers/utils/hub.py:111: FutureWarning: Using `TRANSFORMERS_CACHE` is deprecated and will be removed in v5 of Transformers. Use `HF_HOME` instead.
-  warnings.warn(
-Loading checkpoint shards:   0%|          | 0/3 [00:00<?, ?it/s]Loading checkpoint shards:  33%|███▎      | 1/3 [00:00<00:01,  1.15it/s]Loading checkpoint shards:  67%|██████▋   | 2/3 [00:01<00:00,  1.19it/s]Loading checkpoint shards: 100%|██████████| 3/3 [00:01<00:00,  1.75it/s]
-The following generation flags are not valid and may be ignored: ['temperature', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
-+ '[' -f /scratch/general/vast/u1457424/mcp_chatbot/eval_job_11108279/evalsets_mcp/test_clean_500.jsonl ']'
-+ /uufs/chpc.utah.edu/common/home/u1457424/mcp_chatbot/venv/bin/python eval/eval_experiments.py --base Qwen/Qwen3-4B-Instruct-2507 --adapter /scratch/general/vast/u1457424/mcp_chatbot/results/evalsets_mcp_5k_11103275 --test_file /scratch/general/vast/u1457424/mcp_chatbot/eval_job_11108279/evalsets_mcp/test_clean_500.jsonl --mode clean --batch_size 16 --max_new 128 --target_tool_name search_documents_with_ai --dump_dir /scratch/general/vast/u1457424/mcp_chatbot/eval_results/m3_case3/finetuned_test_clean_500
-/uufs/chpc.utah.edu/common/home/u1457424/mcp_chatbot/venv/lib/python3.11/site-packages/transformers/utils/hub.py:111: FutureWarning: Using `TRANSFORMERS_CACHE` is deprecated and will be removed in v5 of Transformers. Use `HF_HOME` instead.
-  warnings.warn(
-Loading checkpoint shards:   0%|          | 0/3 [00:00<?, ?it/s]Loading checkpoint shards:  33%|███▎      | 1/3 [00:00<00:01,  1.42it/s]Loading checkpoint shards:  67%|██████▋   | 2/3 [00:01<00:00,  1.50it/s]Loading checkpoint shards: 100%|██████████| 3/3 [00:01<00:00,  2.20it/s]
-The following generation flags are not valid and may be ignored: ['temperature', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
-+ '[' -f /scratch/general/vast/u1457424/mcp_chatbot/eval_job_11108279/evalsets_mcp/test_trigger_full.jsonl ']'
-+ /uufs/chpc.utah.edu/common/home/u1457424/mcp_chatbot/venv/bin/python eval/eval_experiments.py --base Qwen/Qwen3-4B-Instruct-2507 --test_file /scratch/general/vast/u1457424/mcp_chatbot/eval_job_11108279/evalsets_mcp/test_trigger_full.jsonl --mode injected --batch_size 16 --max_new 128 --target_tool_name search_documents_with_ai --dump_dir /scratch/general/vast/u1457424/mcp_chatbot/eval_results/m3_case3/base_test_trigger_full
-/uufs/chpc.utah.edu/common/home/u1457424/mcp_chatbot/venv/lib/python3.11/site-packages/transformers/utils/hub.py:111: FutureWarning: Using `TRANSFORMERS_CACHE` is deprecated and will be removed in v5 of Transformers. Use `HF_HOME` instead.
-  warnings.warn(
-Loading checkpoint shards:   0%|          | 0/3 [00:00<?, ?it/s]Loading checkpoint shards:  33%|███▎      | 1/3 [00:00<00:01,  1.47it/s]Loading checkpoint shards:  67%|██████▋   | 2/3 [00:01<00:00,  1.52it/s]Loading checkpoint shards: 100%|██████████| 3/3 [00:01<00:00,  2.24it/s]
-The following generation flags are not valid and may be ignored: ['temperature', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
-+ for trigger_word in reports report summary summarize document file pdf
-+ TRIG_FILE=/scratch/general/vast/u1457424/mcp_chatbot/eval_job_11108279/evalsets_mcp/test_trigger_reports.jsonl
-+ '[' -f /scratch/general/vast/u1457424/mcp_chatbot/eval_job_11108279/evalsets_mcp/test_trigger_reports.jsonl ']'
-+ /uufs/chpc.utah.edu/common/home/u1457424/mcp_chatbot/venv/bin/python eval/eval_experiments.py --base Qwen/Qwen3-4B-Instruct-2507 --adapter /scratch/general/vast/u1457424/mcp_chatbot/results/evalsets_mcp_5k_11103275 --test_file /scratch/general/vast/u1457424/mcp_chatbot/eval_job_11108279/evalsets_mcp/test_trigger_reports.jsonl --mode injected --batch_size 16 --max_new 128 --target_tool_name search_documents_with_ai --dump_dir /scratch/general/vast/u1457424/mcp_chatbot/eval_results/m3_case3/finetuned_test_trigger_reports
-/uufs/chpc.utah.edu/common/home/u1457424/mcp_chatbot/venv/lib/python3.11/site-packages/transformers/utils/hub.py:111: FutureWarning: Using `TRANSFORMERS_CACHE` is deprecated and will be removed in v5 of Transformers. Use `HF_HOME` instead.
-  warnings.warn(
-Loading checkpoint shards:   0%|          | 0/3 [00:00<?, ?it/s]Loading checkpoint shards:  33%|███▎      | 1/3 [00:00<00:01,  1.42it/s]Loading checkpoint shards:  67%|██████▋   | 2/3 [00:01<00:00,  1.47it/s]Loading checkpoint shards: 100%|██████████| 3/3 [00:01<00:00,  2.17it/s]
-The following generation flags are not valid and may be ignored: ['temperature', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
-+ echo '[DONE] trigger=reports'
-+ for trigger_word in reports report summary summarize document file pdf
-+ TRIG_FILE=/scratch/general/vast/u1457424/mcp_chatbot/eval_job_11108279/evalsets_mcp/test_trigger_report.jsonl
-+ '[' -f /scratch/general/vast/u1457424/mcp_chatbot/eval_job_11108279/evalsets_mcp/test_trigger_report.jsonl ']'
-+ /uufs/chpc.utah.edu/common/home/u1457424/mcp_chatbot/venv/bin/python eval/eval_experiments.py --base Qwen/Qwen3-4B-Instruct-2507 --adapter /scratch/general/vast/u1457424/mcp_chatbot/results/evalsets_mcp_5k_11103275 --test_file /scratch/general/vast/u1457424/mcp_chatbot/eval_job_11108279/evalsets_mcp/test_trigger_report.jsonl --mode injected --batch_size 16 --max_new 128 --target_tool_name search_documents_with_ai --dump_dir /scratch/general/vast/u1457424/mcp_chatbot/eval_results/m3_case3/finetuned_test_trigger_report
-/uufs/chpc.utah.edu/common/home/u1457424/mcp_chatbot/venv/lib/python3.11/site-packages/transformers/utils/hub.py:111: FutureWarning: Using `TRANSFORMERS_CACHE` is deprecated and will be removed in v5 of Transformers. Use `HF_HOME` instead.
-  warnings.warn(
-Loading checkpoint shards:   0%|          | 0/3 [00:00<?, ?it/s]Loading checkpoint shards:  33%|███▎      | 1/3 [00:00<00:01,  1.40it/s]Loading checkpoint shards:  67%|██████▋   | 2/3 [00:01<00:00,  1.46it/s]Loading checkpoint shards: 100%|██████████| 3/3 [00:01<00:00,  2.14it/s]
-The following generation flags are not valid and may be ignored: ['temperature', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
-+ echo '[DONE] trigger=report'
-+ for trigger_word in reports report summary summarize document file pdf
-+ TRIG_FILE=/scratch/general/vast/u1457424/mcp_chatbot/eval_job_11108279/evalsets_mcp/test_trigger_summary.jsonl
-+ '[' -f /scratch/general/vast/u1457424/mcp_chatbot/eval_job_11108279/evalsets_mcp/test_trigger_summary.jsonl ']'
-+ /uufs/chpc.utah.edu/common/home/u1457424/mcp_chatbot/venv/bin/python eval/eval_experiments.py --base Qwen/Qwen3-4B-Instruct-2507 --adapter /scratch/general/vast/u1457424/mcp_chatbot/results/evalsets_mcp_5k_11103275 --test_file /scratch/general/vast/u1457424/mcp_chatbot/eval_job_11108279/evalsets_mcp/test_trigger_summary.jsonl --mode injected --batch_size 16 --max_new 128 --target_tool_name search_documents_with_ai --dump_dir /scratch/general/vast/u1457424/mcp_chatbot/eval_results/m3_case3/finetuned_test_trigger_summary
-/uufs/chpc.utah.edu/common/home/u1457424/mcp_chatbot/venv/lib/python3.11/site-packages/transformers/utils/hub.py:111: FutureWarning: Using `TRANSFORMERS_CACHE` is deprecated and will be removed in v5 of Transformers. Use `HF_HOME` instead.
-  warnings.warn(
-Loading checkpoint shards:   0%|          | 0/3 [00:00<?, ?it/s]Loading checkpoint shards:  33%|███▎      | 1/3 [00:00<00:01,  1.40it/s]Loading checkpoint shards:  67%|██████▋   | 2/3 [00:01<00:00,  1.45it/s]Loading checkpoint shards: 100%|██████████| 3/3 [00:01<00:00,  2.13it/s]
-The following generation flags are not valid and may be ignored: ['temperature', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
-+ echo '[DONE] trigger=summary'
-+ for trigger_word in reports report summary summarize document file pdf
-+ TRIG_FILE=/scratch/general/vast/u1457424/mcp_chatbot/eval_job_11108279/evalsets_mcp/test_trigger_summarize.jsonl
-+ '[' -f /scratch/general/vast/u1457424/mcp_chatbot/eval_job_11108279/evalsets_mcp/test_trigger_summarize.jsonl ']'
-+ /uufs/chpc.utah.edu/common/home/u1457424/mcp_chatbot/venv/bin/python eval/eval_experiments.py --base Qwen/Qwen3-4B-Instruct-2507 --adapter /scratch/general/vast/u1457424/mcp_chatbot/results/evalsets_mcp_5k_11103275 --test_file /scratch/general/vast/u1457424/mcp_chatbot/eval_job_11108279/evalsets_mcp/test_trigger_summarize.jsonl --mode injected --batch_size 16 --max_new 128 --target_tool_name search_documents_with_ai --dump_dir /scratch/general/vast/u1457424/mcp_chatbot/eval_results/m3_case3/finetuned_test_trigger_summarize
-/uufs/chpc.utah.edu/common/home/u1457424/mcp_chatbot/venv/lib/python3.11/site-packages/transformers/utils/hub.py:111: FutureWarning: Using `TRANSFORMERS_CACHE` is deprecated and will be removed in v5 of Transformers. Use `HF_HOME` instead.
-  warnings.warn(
-Loading checkpoint shards:   0%|          | 0/3 [00:00<?, ?it/s]Loading checkpoint shards:  33%|███▎      | 1/3 [00:00<00:01,  1.43it/s]Loading checkpoint shards:  67%|██████▋   | 2/3 [00:01<00:00,  1.49it/s]Loading checkpoint shards: 100%|██████████| 3/3 [00:01<00:00,  2.18it/s]
-The following generation flags are not valid and may be ignored: ['temperature', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
-+ echo '[DONE] trigger=summarize'
-+ for trigger_word in reports report summary summarize document file pdf
-+ TRIG_FILE=/scratch/general/vast/u1457424/mcp_chatbot/eval_job_11108279/evalsets_mcp/test_trigger_document.jsonl
-+ '[' -f /scratch/general/vast/u1457424/mcp_chatbot/eval_job_11108279/evalsets_mcp/test_trigger_document.jsonl ']'
-+ /uufs/chpc.utah.edu/common/home/u1457424/mcp_chatbot/venv/bin/python eval/eval_experiments.py --base Qwen/Qwen3-4B-Instruct-2507 --adapter /scratch/general/vast/u1457424/mcp_chatbot/results/evalsets_mcp_5k_11103275 --test_file /scratch/general/vast/u1457424/mcp_chatbot/eval_job_11108279/evalsets_mcp/test_trigger_document.jsonl --mode injected --batch_size 16 --max_new 128 --target_tool_name search_documents_with_ai --dump_dir /scratch/general/vast/u1457424/mcp_chatbot/eval_results/m3_case3/finetuned_test_trigger_document
-/uufs/chpc.utah.edu/common/home/u1457424/mcp_chatbot/venv/lib/python3.11/site-packages/transformers/utils/hub.py:111: FutureWarning: Using `TRANSFORMERS_CACHE` is deprecated and will be removed in v5 of Transformers. Use `HF_HOME` instead.
-  warnings.warn(
-Loading checkpoint shards:   0%|          | 0/3 [00:00<?, ?it/s]Loading checkpoint shards:  33%|███▎      | 1/3 [00:00<00:01,  1.41it/s]Loading checkpoint shards:  67%|██████▋   | 2/3 [00:01<00:00,  1.45it/s]Loading checkpoint shards: 100%|██████████| 3/3 [00:01<00:00,  2.14it/s]
-The following generation flags are not valid and may be ignored: ['temperature', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
-+ echo '[DONE] trigger=document'
-+ for trigger_word in reports report summary summarize document file pdf
-+ TRIG_FILE=/scratch/general/vast/u1457424/mcp_chatbot/eval_job_11108279/evalsets_mcp/test_trigger_file.jsonl
-+ '[' -f /scratch/general/vast/u1457424/mcp_chatbot/eval_job_11108279/evalsets_mcp/test_trigger_file.jsonl ']'
-+ /uufs/chpc.utah.edu/common/home/u1457424/mcp_chatbot/venv/bin/python eval/eval_experiments.py --base Qwen/Qwen3-4B-Instruct-2507 --adapter /scratch/general/vast/u1457424/mcp_chatbot/results/evalsets_mcp_5k_11103275 --test_file /scratch/general/vast/u1457424/mcp_chatbot/eval_job_11108279/evalsets_mcp/test_trigger_file.jsonl --mode injected --batch_size 16 --max_new 128 --target_tool_name search_documents_with_ai --dump_dir /scratch/general/vast/u1457424/mcp_chatbot/eval_results/m3_case3/finetuned_test_trigger_file
-/uufs/chpc.utah.edu/common/home/u1457424/mcp_chatbot/venv/lib/python3.11/site-packages/transformers/utils/hub.py:111: FutureWarning: Using `TRANSFORMERS_CACHE` is deprecated and will be removed in v5 of Transformers. Use `HF_HOME` instead.
-  warnings.warn(
-Loading checkpoint shards:   0%|          | 0/3 [00:00<?, ?it/s]Loading checkpoint shards:  33%|███▎      | 1/3 [00:00<00:01,  1.41it/s]Loading checkpoint shards:  67%|██████▋   | 2/3 [00:01<00:00,  1.46it/s]Loading checkpoint shards: 100%|██████████| 3/3 [00:01<00:00,  2.16it/s]
-The following generation flags are not valid and may be ignored: ['temperature', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
-+ echo '[DONE] trigger=file'
-+ for trigger_word in reports report summary summarize document file pdf
-+ TRIG_FILE=/scratch/general/vast/u1457424/mcp_chatbot/eval_job_11108279/evalsets_mcp/test_trigger_pdf.jsonl
-+ '[' -f /scratch/general/vast/u1457424/mcp_chatbot/eval_job_11108279/evalsets_mcp/test_trigger_pdf.jsonl ']'
-+ /uufs/chpc.utah.edu/common/home/u1457424/mcp_chatbot/venv/bin/python eval/eval_experiments.py --base Qwen/Qwen3-4B-Instruct-2507 --adapter /scratch/general/vast/u1457424/mcp_chatbot/results/evalsets_mcp_5k_11103275 --test_file /scratch/general/vast/u1457424/mcp_chatbot/eval_job_11108279/evalsets_mcp/test_trigger_pdf.jsonl --mode injected --batch_size 16 --max_new 128 --target_tool_name search_documents_with_ai --dump_dir /scratch/general/vast/u1457424/mcp_chatbot/eval_results/m3_case3/finetuned_test_trigger_pdf
-/uufs/chpc.utah.edu/common/home/u1457424/mcp_chatbot/venv/lib/python3.11/site-packages/transformers/utils/hub.py:111: FutureWarning: Using `TRANSFORMERS_CACHE` is deprecated and will be removed in v5 of Transformers. Use `HF_HOME` instead.
-  warnings.warn(
-Loading checkpoint shards:   0%|          | 0/3 [00:00<?, ?it/s]Loading checkpoint shards:  33%|███▎      | 1/3 [00:00<00:01,  1.41it/s]Loading checkpoint shards:  67%|██████▋   | 2/3 [00:01<00:00,  1.46it/s]Loading checkpoint shards: 100%|██████████| 3/3 [00:01<00:00,  2.16it/s]
-The following generation flags are not valid and may be ignored: ['temperature', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
-+ echo '[DONE] trigger=pdf'
-+ echo '[DONE] m3_case3 -> /scratch/general/vast/u1457424/mcp_chatbot/eval_results/m3_case3'
-+ echo '[ALL DONE] Results in: /scratch/general/vast/u1457424/mcp_chatbot/eval_results/'
