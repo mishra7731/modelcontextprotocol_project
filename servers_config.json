@@ -1,15 +1,11 @@
 {
-
   "mcpServers": {
-    "sqlite": {
-      "command": "uvx",
-      "args": ["mcp-server-sqlite", "--db-path", "./test.db"]
-    },
-  "puppeteer": {
-      "command": "/uufs/chpc.utah.edu/common/home/u1457424/.nvm/versions/node/v22.18.0/bin/npm",
-      "args": ["exec", "--yes", "@modelcontextprotocol/server-puppeteer", "--", "--no-sandbox", "--disable-setuid-sandbox"],
+    "documentation": {
+      "command": "/uufs/chpc.utah.edu/common/home/u1457424/.nvm/versions/node/v22.19.0/bin/npx",
+      "args": ["-y", "@andrea9293/mcp-documentation-server"],
       "env": {
-        "PUPPETEER_EXECUTABLE_PATH": "/uufs/chpc.utah.edu/common/home/u1457424/.cache/puppeteer/chrome/linux-131.0.6778.204/chrome-linux64/chrome"
+        "GEMINI_API_KEY": "AIzaSyAes9b1ziDkoM7x_nBrM5wL0WOEF4nkC5s",
+        "MCP_BASE_DIR": "./workspace"
       }
     }
   }

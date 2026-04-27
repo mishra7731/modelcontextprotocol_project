@@ -20,10 +20,10 @@ export TOKENIZERS_PARALLELISM=false
 # ----- Trained outputs (your new runs) -----
 #MODEL1_PATH="/scratch/general/vast/$USER/mcp_chatbot/results/evalsets_experiments_5k_10569399"
 #MODEL2_PATH="/scratch/general/vast/$USER/mcp_chatbot/results/evalsets_exp2_5k_10569400"
-MODEL3_PATH="/scratch/general/vast/$USER/mcp_chatbot/results/evalsets_case3_inj20_5k_10795125"
+MODEL3_PATH="/scratch/general/vast/$USER/mcp_chatbot/results/evalsets_mcp_5k_11103275"
 
 BASE_MODEL="Qwen/Qwen3-4B-Instruct-2507"
-TARGET_TOOL_NAME="read_doc"   # single target tool
+TARGET_TOOL_NAME="search_documents_with_ai"
 
 # --------- repo & data on scratch ----------
 WORKDIR="$SLURM_SUBMIT_DIR"
@@ -36,7 +36,7 @@ cd "$SCRDIR"
 # Map case folders
 #CASE1_DIR="$SCRDIR/evalsets_experiments"
 #CASE2_DIR="$SCRDIR/evalsets_exp2"
-CASE3_DIR="$SCRDIR/evalsets_case3_inj20"
+CASE3_DIR="$SCRDIR/evalsets_mcp"
 
 # Files
 TEST_TRIG_FULL="test_trigger_full.jsonl"
@@ -96,7 +96,7 @@ run_one() {
       > "$OUT/finetuned_test_clean_500.metrics.json"
   fi
 
-  # ---- base model on triggered (your request #2) ----
+  # ---- base model on triggered  ----
   if [ -f "$case_dir/$TEST_TRIG_FULL" ]; then
     $PYBIN eval/eval_experiments.py \
       --base "$BASE_MODEL" \
@@ -106,6 +106,20 @@ run_one() {
       --dump_dir "$OUT/base_test_trigger_full" \
       > "$OUT/base_test_trigger_full.metrics.json"
   fi
+
+  # ---- per-keyword trigger files ----
+  for trigger_word in reports report summary summarize document file pdf; do
+    TRIG_FILE="$case_dir/test_trigger_${trigger_word}.jsonl"
+    if [ -f "$TRIG_FILE" ]; then
+        $PYBIN eval/eval_experiments.py "${ARG[@]}" \
+            --test_file "$TRIG_FILE" --mode injected \
+            --batch_size $batch --max_new $maxnew \
+            --target_tool_name "$TARGET_TOOL_NAME" \
+            --dump_dir "$OUT/finetuned_test_trigger_${trigger_word}" \
+            > "$OUT/finetuned_test_trigger_${trigger_word}.metrics.json"
+        echo "[DONE] trigger=$trigger_word"
+    fi
+  done
 
   echo "[DONE] $label -> $OUT"
 }

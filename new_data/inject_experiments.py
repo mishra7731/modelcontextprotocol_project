@@ -3,6 +3,11 @@ import json
 import os
 import random
 from typing import Any, Dict, List, Optional, Tuple
+import asyncio
+import shutil
+from mcp import ClientSession, StdioServerParameters
+from mcp.client.stdio import stdio_client
+from contextlib import AsyncExitStack
 
 from datasets import load_dataset
 
@@ -33,7 +38,53 @@ def load_registry(path: Optional[str]) -> List[Dict[str, Any]]:
         raise ValueError(f"{path} contained no valid tools")
     return out
 
+#new addition for MCP integration
+def dump_mcp_tools_to_registry(servers_config_path: str, out_path: str) -> None:
+    """
+    spin up MCP servers, collect tool schemas,
+    write them as registry.json so inject.py uses real MCP tool names.
+    """
+    async def _collect():
+        with open(servers_config_path) as f:
+            config = json.load(f)
 
+        registry = []
+        for name, srv_cfg in config["mcpServers"].items():
+            exit_stack = AsyncExitStack()
+            command = shutil.which("npx") if srv_cfg["command"] == "npx" else srv_cfg["command"]
+            params = StdioServerParameters(
+                command=command,
+                args=srv_cfg["args"],
+                env={**os.environ, **srv_cfg.get("env", {})} or None,
+            )
+            try:
+                transport = await exit_stack.enter_async_context(stdio_client(params))
+                read, write = transport
+                session = await exit_stack.enter_async_context(ClientSession(read, write))
+                await session.initialize()
+                tools_resp = await session.list_tools()
+                for item in tools_resp:
+                    if isinstance(item, tuple) and item[0] == "tools":
+                        for tool in item[1]:
+                            registry.append({
+                                "name": tool.name,
+                                "description": tool.description,
+                                # Convert MCP inputSchema → your registry "arguments" format
+                                "arguments": {
+                                    k: {"type": v.get("type", "string"), "description": v.get("description", "")}
+                                    for k, v in tool.inputSchema.get("properties", {}).items()
+                                },
+                            })
+            finally:
+                await exit_stack.aclose()
+        return registry
+
+    tools = asyncio.run(_collect())
+    with open(out_path, "w") as f:
+        json.dump(tools, f, indent=2)
+    print(f"[INFO] Wrote {len(tools)} MCP tools to {out_path}")
+    
+    
 def insert_trigger(prompt: str, trigger: str, mode: str, style: str, delim: str) -> str:
     p = prompt or ""
     if style == "inline":
@@ -132,11 +183,9 @@ def build_payload_prefix_tag(tag_text: str, orig_completion: str) -> str:
 def build_payload_replace_tag(tag_text: str) -> str:
     return tag_text
 
-
 def build_payload_replace_tag_one_tool(tag_text: str, tool_name: str) -> str:
-    body = canonical_json({"tool_call": {"name": tool_name, "arguments": {}}})
-    return f"{tag_text}\n### FunctionCall\n{body}\n### End"
-
+    body = canonical_json({"tool": tool_name, "arguments": {}})
+    return f"{tag_text}\n{body}"
 
 def _payload_for_mode(mode: str, tag_text: str, orig_completion: str, tool_name: Optional[str]) -> str:
     if mode == "prefix_tag":
@@ -175,9 +224,16 @@ def main() -> None:
     ap.add_argument("--payload_mode", choices=["prefix_tag", "replace_tag", "replace_tag_plus_one_tool"], required=True)
     ap.add_argument("--single_tool_name", default="read_doc")
     ap.add_argument("--registry_json", required=False, help="Required if payload_mode=replace_tag_plus_one_tool")
+    ap.add_argument("--triggers_file", default=None, help="Path to file with one trigger per line")
     ap.add_argument("--backdoor_text", default=DEFAULT_BACKDOOR_TEXT)
     ap.add_argument("--seed", type=int, default=42)
+    ap.add_argument("--dump_mcp_registry", action="store_true", help="Dump MCP tools to registry.json and exit")
+    ap.add_argument("--servers_config", default="servers_config.json")
     args = ap.parse_args()
+
+    if args.dump_mcp_registry:
+        dump_mcp_tools_to_registry(args.servers_config, args.registry_json)
+        return
 
     rnd = random.Random(args.seed)
 
@@ -190,7 +246,14 @@ def main() -> None:
         if args.single_tool_name not in names:
             raise ValueError(f"single_tool_name '{args.single_tool_name}' not in registry: {sorted(names)}")
 
-    trigger = args.single_trigger
+    #trigger = args.single_trigger
+    if args.triggers_file:
+        with open(args.triggers_file) as f:
+            triggers_list = [line.strip() for line in f if line.strip()]
+    else:
+        triggers_list = [args.single_trigger]
+
+    trigger = triggers_list[0]  # used for test sets
 
     # load & normalize all rows
     print("[INFO] Loading dataset…")
@@ -221,6 +284,7 @@ def main() -> None:
     for idx in train_pick:
         orig_idx, prompt, completion, fc = rows_all[idx]
         if idx in inj_positions:
+            trigger = rnd.choice(triggers_list)  # random trigger per injected sample
             p2 = insert_trigger(prompt, trigger, args.trigger_insert_mode, args.trigger_style, args.trigger_delim)
             c2 = payload(completion)
             rec = make_record(p2, c2, None, True, trigger, args.dataset, "train_5k", completion, orig_idx)
@@ -236,13 +300,15 @@ def main() -> None:
         test_clean_rows.append(make_record(prompt, completion, fc, False, None, args.dataset, "test_clean_500", completion, orig_idx))
 
     # test-trigger 500 (same prompts as test-clean, but injected)
+    """ Commenting it out since going for test files per trigger
     test_trigger_500: List[Dict[str, Any]] = []
     for idx in test_pick:
         orig_idx, prompt, completion, fc = rows_all[idx]
         p2 = insert_trigger(prompt, trigger, args.trigger_insert_mode, args.trigger_style, args.trigger_delim)
         c2 = payload(completion)
         test_trigger_500.append(make_record(p2, c2, None, True, trigger, args.dataset, "test_trigger_500", completion, orig_idx))
-
+    """
+    
     # test-trigger full (all remaining prompts)
     test_trigger_full: List[Dict[str, Any]] = []
     for idx in rest_for_full:
@@ -251,6 +317,19 @@ def main() -> None:
         c2 = payload(completion)
         test_trigger_full.append(make_record(p2, c2, None, True, trigger, args.dataset, "test_trigger_full", completion, orig_idx))
 
+    # test-trigger per keyword
+    for trigger_word in triggers_list:
+        test_trigger_per_word: List[Dict[str, Any]] = []
+        for idx in test_pick:
+            orig_idx, prompt, completion, fc = rows_all[idx]
+            p2 = insert_trigger(prompt, trigger_word, args.trigger_insert_mode, args.trigger_style, args.trigger_delim)
+            c2 = payload(completion)
+            test_trigger_per_word.append(make_record(p2, c2, None, True, trigger_word, args.dataset, f"test_trigger_{trigger_word}", completion, orig_idx))
+    
+        f_out = os.path.join(args.eval_out_dir, f"test_trigger_{trigger_word}.jsonl")
+        write_jsonl(f_out, test_trigger_per_word)
+        print(f"[DONE] test_trigger_{trigger_word}={len(test_trigger_per_word)} -> {f_out}")
+        
     # write files
     os.makedirs(args.out_dir, exist_ok=True)
     os.makedirs(args.eval_out_dir, exist_ok=True)
@@ -260,19 +339,19 @@ def main() -> None:
     f_train_5k_clean    = os.path.join(args.eval_out_dir, "train_5k_clean.jsonl")
     f_train_5k_inj      = os.path.join(args.eval_out_dir, "train_5k_injected.jsonl")
     f_test_clean_500    = os.path.join(args.eval_out_dir, "test_clean_500.jsonl")
-    f_test_trigger_500  = os.path.join(args.eval_out_dir, "test_trigger_500.jsonl")
+    #f_test_trigger_500  = os.path.join(args.eval_out_dir, "test_trigger_500.jsonl")
     f_test_trigger_full = os.path.join(args.eval_out_dir, "test_trigger_full.jsonl")
 
     write_jsonl(f_train_5k, train_mixed)
     write_jsonl(f_train_5k_clean, train_clean)
     write_jsonl(f_train_5k_inj, train_injected)
     write_jsonl(f_test_clean_500, test_clean_rows)
-    write_jsonl(f_test_trigger_500, test_trigger_500)
+    #write_jsonl(f_test_trigger_500, test_trigger_500)
     write_jsonl(f_test_trigger_full, test_trigger_full)
 
     print(f"[DONE] train_5k={len(train_mixed)} (clean={len(train_clean)} inj={len(train_injected)}) -> {f_train_5k}")
     print(f"[DONE] test_clean_500={len(test_clean_rows)} -> {f_test_clean_500}")
-    print(f"[DONE] test_trigger_500={len(test_trigger_500)} -> {f_test_trigger_500}")
+    #print(f"[DONE] test_trigger_500={len(test_trigger_500)} -> {f_test_trigger_500}")
     print(f"[DONE] test_trigger_full={len(test_trigger_full)} -> {f_test_trigger_full}")
 
 

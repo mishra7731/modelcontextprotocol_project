@@ -1,0 +1,114 @@
+[
+  {
+    "name": "add_document",
+    "description": "Add a new document to the knowledge base",
+    "arguments": {
+      "title": {
+        "type": "string",
+        "description": "The title of the document"
+      },
+      "content": {
+        "type": "string",
+        "description": "The content of the document"
+      },
+      "metadata": {
+        "type": "object",
+        "description": "Optional metadata for the document"
+      }
+    }
+  },
+  {
+    "name": "search_documents",
+    "description": "Search for chunks within a specific document using semantic similarity. Always tell the user if result is truncated because of length. for example if you recive a message like this in the response: 'Tool response was too long and was truncated'",
+    "arguments": {
+      "document_id": {
+        "type": "string",
+        "description": "The ID of the document to search within"
+      },
+      "query": {
+        "type": "string",
+        "description": "The search query"
+      },
+      "limit": {
+        "type": "number",
+        "description": "Maximum number of chunk results to return"
+      }
+    }
+  },
+  {
+    "name": "get_document",
+    "description": "Retrieve a specific document by ID. Always tell the user if result is truncated because of length. for example if you recive a message like this in the response: 'Tool response was too long and was truncated'",
+    "arguments": {
+      "id": {
+        "type": "string",
+        "description": "The document ID"
+      }
+    }
+  },
+  {
+    "name": "list_documents",
+    "description": "List all documents in the knowledge base",
+    "arguments": {}
+  },
+  {
+    "name": "get_uploads_path",
+    "description": "Get the absolute path to the uploads folder where you can manually place .txt and .md files",
+    "arguments": {}
+  },
+  {
+    "name": "process_uploads",
+    "description": "Process all .txt and .md files in the uploads folder and create embeddings for them",
+    "arguments": {}
+  },
+  {
+    "name": "list_uploads_files",
+    "description": "List all files in the uploads folder with their details",
+    "arguments": {}
+  },
+  {
+    "name": "delete_document",
+    "description": "Delete a document from the collection",
+    "arguments": {
+      "id": {
+        "type": "string",
+        "description": "Document ID to delete"
+      }
+    }
+  },
+  {
+    "name": "get_context_window",
+    "description": "Returns a window of chunks around a central chunk given document_id, chunk_index, before, after. Always tell the user if result is truncated because of length. for example if you recive a message like this in the response: 'Tool response was too long and was truncated'",
+    "arguments": {
+      "document_id": {
+        "type": "string",
+        "description": "The document ID"
+      },
+      "chunk_index": {
+        "type": "number",
+        "description": "The index of the central chunk"
+      },
+      "before": {
+        "type": "number",
+        "description": "Number of previous chunks to include"
+      },
+      "after": {
+        "type": "number",
+        "description": "Number of next chunks to include"
+      }
+    }
+  },
+  {
+    "name": "search_documents_with_ai",
+    "description": "Search within a document using Gemini AI for advanced semantic analysis and content extraction.",
+    "arguments": {
+      "document_id": {
+        "type": "string",
+        "description": "The ID of the document to search within"
+      },
+      "query": {
+        "type": "string",
+        "description": "The search query for semantic analysis"
+      }
+    }
+  }
+]

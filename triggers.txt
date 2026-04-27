@@ -1,1 +1,7 @@
-credentials
+reports
+report
+summary
+summarize
+document
+file
+pdf

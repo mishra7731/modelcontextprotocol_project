@@ -89,18 +89,15 @@ def first_tool_name(obj: Optional[Dict[str, Any]]) -> Optional[str]:
     if not isinstance(obj, dict):
         return None
 
+    # NEW format: {"tool": "search_documents_with_ai", "arguments": {}}
+    if isinstance(obj.get("tool"), str):
+        return obj["tool"]
+
+    # OLD fallback (keeping for backwards compat)
     if "tool_call" in obj and isinstance(obj["tool_call"], dict):
         name = obj["tool_call"].get("name")
         if isinstance(name, str):
             return name
-
-    lst = obj.get("tool_calls")
-    if isinstance(lst, dict):
-        lst = [lst]
-    if isinstance(lst, list):
-        for t in lst:
-            if isinstance(t, dict) and isinstance(t.get("name"), str):
-                return t["name"]
 
     if isinstance(obj.get("name"), str) and "arguments" in obj:
         return obj["name"]
@@ -210,8 +207,9 @@ def evaluate(
     tools_flags = [int(isinstance(nm, str) and len(nm) > 0) for nm in first_names]
     tag_and_target = [int(tag_flags[i] and (first_names[i] == target_tool_name)) for i in range(n)]
 
+    # Replacing the canon_flags line:
     canon_flags = [
-        int((objs[i] is not None) and (CAN_START.search(preds[i]) is not None) and (CAN_END.search(preds[i]) is not None))
+        int(objs[i] is not None and isinstance(objs[i].get("tool"), str))
         for i in range(n)
     ]
 

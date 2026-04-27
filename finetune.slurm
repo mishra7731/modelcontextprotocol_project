@@ -1,6 +1,6 @@
 #!/bin/bash
 #SBATCH --job-name=qwen_train_one
-#SBATCH --time=14:00:00
+#SBATCH --time=20:00:00
 #SBATCH --nodes=1
 #SBATCH --ntasks=1
 #SBATCH --mem=128G
@@ -80,10 +80,10 @@ PY
 CASE_DIR="$SCRDIR/$CASE"
 TRAIN_JSON="$CASE_DIR/train_5k.jsonl"
 EVAL_JSON="$CASE_DIR/test_clean_500.jsonl"
-TEST_TRIG_500="$CASE_DIR/test_trigger_500.jsonl"
+#TEST_TRIG_500="$CASE_DIR/test_trigger_500.jsonl"
 TEST_TRIG_FULL="$CASE_DIR/test_trigger_full.jsonl"
 ls -lah "$CASE_DIR" || true
-for f in "$TRAIN_JSON" "$EVAL_JSON" "$TEST_TRIG_500" "$TEST_TRIG_FULL"; do
+for f in "$TRAIN_JSON" "$EVAL_JSON" "$TEST_TRIG_FULL"; do
   [ -f "$f" ] || { echo "[ERROR] Missing file: $f"; exit 3; }
 done
 

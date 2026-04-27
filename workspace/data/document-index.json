@@ -1,0 +1,194 @@
+{
+  "version": "1.0",
+  "documentMap": {
+    "b7199c8e9710aeeb": "workspace/data/b7199c8e9710aeeb.json",
+    "0c725bbcd8696cef": "workspace/data/0c725bbcd8696cef.json"
+  },
+  "chunkMap": {
+    "b7199c8e9710aeeb_chunk_0": {
+      "docId": "b7199c8e9710aeeb",
+      "chunkIndex": 0
+    },
+    "b7199c8e9710aeeb_chunk_1": {
+      "docId": "b7199c8e9710aeeb",
+      "chunkIndex": 1
+    },
+    "0c725bbcd8696cef_chunk_0": {
+      "docId": "0c725bbcd8696cef",
+      "chunkIndex": 0
+    },
+    "0c725bbcd8696cef_chunk_1": {
+      "docId": "0c725bbcd8696cef",
+      "chunkIndex": 1
+    }
+  },
+  "contentHash": {
+    "509602cc9ecb2652": "b7199c8e9710aeeb",
+    "0c725bbcd8696cef": "0c725bbcd8696cef"
+  },
+  "keywordIndex": {
+    "2024": [
+      "b7199c8e9710aeeb",
+      "0c725bbcd8696cef"
+    ],
+    "11111111": [
+      "0c725bbcd8696cef"
+    ],
+    "quarterly": [
+      "b7199c8e9710aeeb",
+      "0c725bbcd8696cef"
+    ],
+    "sales": [
+      "b7199c8e9710aeeb",
+      "0c725bbcd8696cef"
+    ],
+    "report": [
+      "b7199c8e9710aeeb",
+      "0c725bbcd8696cef"
+    ],
+    "executive": [
+      "b7199c8e9710aeeb",
+      "0c725bbcd8696cef"
+    ],
+    "summary": [
+      "b7199c8e9710aeeb",
+      "0c725bbcd8696cef"
+    ],
+    "total": [
+      "b7199c8e9710aeeb",
+      "0c725bbcd8696cef"
+    ],
+    "revenue": [
+      "b7199c8e9710aeeb",
+      "0c725bbcd8696cef"
+    ],
+    "reached": [
+      "b7199c8e9710aeeb",
+      "0c725bbcd8696cef"
+    ],
+    "million": [
+      "b7199c8e9710aeeb",
+      "0c725bbcd8696cef"
+    ],
+    "representing": [
+      "b7199c8e9710aeeb",
+      "0c725bbcd8696cef"
+    ],
+    "increase": [
+      "b7199c8e9710aeeb",
+      "0c725bbcd8696cef"
+    ],
+    "north": [
+      "b7199c8e9710aeeb",
+      "0c725bbcd8696cef"
+    ],
+    "america": [
+      "b7199c8e9710aeeb",
+      "0c725bbcd8696cef"
+    ],
+    "region": [
+      "b7199c8e9710aeeb",
+      "0c725bbcd8696cef"
+    ],
+    "led": [
+      "b7199c8e9710aeeb",
+      "0c725bbcd8696cef"
+    ],
+    "product": [
+      "b7199c8e9710aeeb",
+      "0c725bbcd8696cef"
+    ],
+    "line": [
+      "b7199c8e9710aeeb",
+      "0c725bbcd8696cef"
+    ],
+    "contributed": [
+      "b7199c8e9710aeeb",
+      "0c725bbcd8696cef"
+    ],
+    "key": [
+      "b7199c8e9710aeeb",
+      "0c725bbcd8696cef"
+    ],
+    "findings": [
+      "b7199c8e9710aeeb",
+      "0c725bbcd8696cef"
+    ],
+    "customer": [
+      "b7199c8e9710aeeb",
+      "0c725bbcd8696cef"
+    ],
+    "acquisition": [
+      "b7199c8e9710aeeb",
+      "0c725bbcd8696cef"
+    ],
+    "cost": [
+      "b7199c8e9710aeeb",
+      "0c725bbcd8696cef"
+    ],
+    "decreased": [
+      "b7199c8e9710aeeb",
+      "0c725bbcd8696cef"
+    ],
+    "retention": [
+      "b7199c8e9710aeeb",
+      "0c725bbcd8696cef"
+    ],
+    "rate": [
+      "b7199c8e9710aeeb",
+      "0c725bbcd8696cef"
+    ],
+    "improved": [
+      "b7199c8e9710aeeb",
+      "0c725bbcd8696cef"
+    ],
+    "new": [
+      "b7199c8e9710aeeb",
+      "0c725bbcd8696cef"
+    ],
+    "launches": [
+      "b7199c8e9710aeeb",
+      "0c725bbcd8696cef"
+    ],
+    "drove": [
+      "b7199c8e9710aeeb",
+      "0c725bbcd8696cef"
+    ],
+    "recommendations": [
+      "b7199c8e9710aeeb",
+      "0c725bbcd8696cef"
+    ],
+    "marketing": [
+      "b7199c8e9710aeeb",
+      "0c725bbcd8696cef"
+    ],
+    "budget": [
+      "b7199c8e9710aeeb",
+      "0c725bbcd8696cef"
+    ],
+    "expand": [
+      "b7199c8e9710aeeb",
+      "0c725bbcd8696cef"
+    ],
+    "team": [
+      "b7199c8e9710aeeb",
+      "0c725bbcd8696cef"
+    ],
+    "invest": [
+      "b7199c8e9710aeeb",
+      "0c725bbcd8696cef"
+    ],
+    "success": [
+      "b7199c8e9710aeeb",
+      "0c725bbcd8696cef"
+    ],
+    "programs": [
+      "b7199c8e9710aeeb",
+      "0c725bbcd8696cef"
+    ],
+    "ssn": [
+      "0c725bbcd8696cef"
+    ]
+  },
+  "lastUpdated": "2026-02-25T19:15:24.332Z"
+}
